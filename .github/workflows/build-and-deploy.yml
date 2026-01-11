@@ -21,6 +21,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Cache Docker image
+        uses: actions/cache@v4
+        with:
+          path: /tmp/docker-cache
+          key: docker-texlive-${{ hashFiles('.github/workflows/build-and-deploy.yml') }}
+          restore-keys: |
+            docker-texlive-
+
+      - name: Pull and cache TeX Live Docker image
+        run: |
+          mkdir -p /tmp/docker-cache
+          if [ -f /tmp/docker-cache/texlive-full.tar ]; then
+            echo "Loading Docker image from cache..."
+            docker load -i /tmp/docker-cache/texlive-full.tar
+          else
+            echo "Pulling Docker image..."
+            docker pull ghcr.io/xu-cheng/texlive-full:20250301
+            echo "Saving Docker image to cache..."
+            docker save ghcr.io/xu-cheng/texlive-full:20250301 -o /tmp/docker-cache/texlive-full.tar
+          fi
+
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
         with:
