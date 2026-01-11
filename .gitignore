@@ -1,0 +1,13 @@
+# LaTeX build outputs
+build/
+
+# LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.pdf
+!docs/*.pdf
