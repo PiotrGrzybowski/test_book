@@ -28,6 +28,7 @@ jobs:
           working_directory: .
           args: -pdf -output-directory=build
           latexmk_use_xelatex: false
+          texlive_version: 2024
           extra_system_packages: "inkscape"
           pre_compile: "mkdir -p build"
           post_compile: "ls -lh build/"
