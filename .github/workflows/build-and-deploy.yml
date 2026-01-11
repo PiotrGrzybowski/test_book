@@ -21,19 +21,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install LaTeX
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended
-
-      - name: Create build directory
-        run: mkdir -p build
-
-      - name: Build PDF with pdflatex
-        run: |
-          pdflatex -output-directory=build main.tex
-          # Run twice to resolve references
-          pdflatex -output-directory=build main.tex
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          working_directory: .
+          args: -output-directory=build
+          latexmk_use_xelatex: false
+          extra_system_packages: "inkscape"
+          pre_compile: "mkdir -p build"
+          post_compile: "ls -lh build/"
 
       - name: Copy PDF to docs
         run: |
