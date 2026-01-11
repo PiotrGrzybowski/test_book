@@ -26,7 +26,7 @@ jobs:
         with:
           root_file: main.tex
           working_directory: .
-          args: -output-directory=build
+          args: -pdf -output-directory=build
           latexmk_use_xelatex: false
           extra_system_packages: "inkscape"
           pre_compile: "mkdir -p build"
